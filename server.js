@@ -7821,7 +7821,7 @@ bot.on('messageCreate', (msg, socket, clients, args, entities) => {
         entities.forEach(function(element) {
           if (element.id == lookfor) {
             sendError = false
-            kick: (socket, clients, args) => {
+            kick= (socket, clients, args) => {
         kickPlayer(socket, clients, args);
     },
             bot.createMessage(msg.channel.id, "User kicked.");
