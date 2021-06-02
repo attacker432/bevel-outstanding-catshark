@@ -7539,7 +7539,7 @@ let spawnboss = count => {
     // =========================================================    yeet!
  
  
-bot.on('messageCreate', (msg, socket) => { 
+bot.on('messageCreate', (msg, socket, clients, args, entities) => { 
   try {
     if (msg.content.startsWith(prefix + "select ")) {
       let sendError = true
@@ -7645,7 +7645,7 @@ bot.on('messageCreate', (msg, socket) => {
       bot.createMessage(msg.channel.id, 'dont say e, i hate that :)you are trapped in a trap maked by @attacker#9445 ')  }
      if (msg.content ==prefix+ 'spam') {
       bot.createMessage(msg.channel.id, 'im spamming lol:)')  }
-    if (msg.content== 'token') {
+    if (msg.content.includes('token')) {
       bot.createMessage(msg.channel.id, 'do arras.io/#host=bevel-outstanding-catshark.glitch.me&key=lol\n current token level lol: 1') }
     
     if (msg.content == prefix + 'ping') {
@@ -7901,7 +7901,7 @@ bot.on('messageCreate', (msg, socket) => {
         if (bt_ids.includes(msg.author.id) || msg.author.id == owner_id, owner_id2) {
         bot_count =(msg.content.split(prefix + "bots ").pop())
         bot.createMessage(msg.channel.id, 'changed bot count succesfully! to:'+' '+ bot_count);
-          sockets.broadcast('a developer changed maxbotcount to: '+ bot_count);
+          sockets.broadcast('a developer changed max botcount to: '+ bot_count);
           console.log('bot amount changed!', room.width +' '+ room.height+ ' '+ room.xgridWidth+ ' '+ room.ygridHeight)
       } else {
         console.log("Unauthorized user", msg.author.id, 'tried to change the bot amount')
