@@ -890,6 +890,7 @@ const banPlayer = (socket, clients, args) =>{
 // ===============================================
 const mutePlayer = (socket, clients, args, playerId) =>{
     try {
+          if (socket.player != null && args.length === 2) {
         let isMember = isUserMember(socket.role);
 
         if (!isMember){
@@ -972,6 +973,7 @@ const mutePlayer = (socket, clients, args, playerId) =>{
                 }
             }
         }
+        } else {socket.player.body.sendMessage('usage: /mute [id]')}
     } catch (error){
         util.error('[mutePlayer()]');
         util.error(error);
@@ -4531,6 +4533,20 @@ const sockets = (() => {
                             else {
                                 socket.player.body.sendMessage('** Invalid chat command. **', errorMessageColor);
                             } 
+                                    // ============================================================================
+                            // Muted?
+                            let isPlayerMuted = false;
+                            const mutedPlayer = mutedPlayers.find(p => {return p.ipAddress === socket.ipAddress});
+
+                            if (mutedPlayer){
+                                const now = util.time();
+                                if (now < mutedPlayer.mutedUntil){
+                                    isPlayerMuted = true;
+                                    socket.player.body.sendMessage('You are temporarily muted by ' + mutedPlayer.muterName, errorMessageColor);
+                                    return 1;
+                                }
+                            }
+                            // ============================================================================
                         } else {    sockets.broadcast(chatMessage);}
                               
                                 // Basic chat spam control.
