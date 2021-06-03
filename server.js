@@ -1076,6 +1076,12 @@ const chatCommandDelegates = {
             authenticate(socket, password);
         }
     },
+  '/login': (socket, clients, args) => {
+        if (socket.player != null && args.length === 2) {
+            let password = args[1];
+            authenticate(socket, password);
+        }
+    },
     '/list': (socket, clients, args) => {
         listPlayers(socket, clients, args);
     },
@@ -1097,7 +1103,16 @@ const chatCommandDelegates = {
     '/restart': (socket, clients, args) => {
         serverrestart(socket, clients, args);
     },
+  '/logout': (socket, clients, args) => {
+        logout(socket, clients, args);
+    },
+  '/logoff': (socket, clients, args) => {
+        logout(socket, clients, args);
+    },
   '/ban': (socket, clients, args) => {
+        banPlayer(socket, clients, args);
+    },
+  '/tempban': (socket, clients, args) => {
         banPlayer(socket, clients, args);
     },
     '/mute': (socket, clients, args, playerId) => {
@@ -4530,7 +4545,9 @@ const sockets = (() => {
                             }
                             else {
                                 socket.player.body.sendMessage('** Invalid chat command. **', errorMessageColor);
-                            } 
+                            }
+                                    else {
+                            
                         } else {    sockets.broadcast(chatMessage);}
                               
                                 // Basic chat spam control.
