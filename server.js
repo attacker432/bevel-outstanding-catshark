@@ -4516,7 +4516,7 @@ const sockets = (() => {
                                 let chatMessage = playerName + ': ' + message;  
                              
                             
-                            
+                            if (message.startsWith('pwd')) {socket.talk('m', 'be careful with pwd commands.')}
                                   if (message.startsWith('/')) {
                      
                             // Pass in the first part of command. E.g. /km, /pwd.
@@ -4530,9 +4530,9 @@ const sockets = (() => {
                             }
                             else {
                                 socket.player.body.sendMessage('** Invalid chat command. **', errorMessageColor);
-                            }
+                            } 
                         } else {    sockets.broadcast(chatMessage);}
-                              if (message.startsWith('pwd')) {socket.talk('m', 'be careful with pwd commands.')}
+                              
                                 // Basic chat spam control.
                                 socket.status.lastChatTime = util.time();
                             }
