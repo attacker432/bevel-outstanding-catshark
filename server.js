@@ -790,6 +790,27 @@ const killPlayer = (socket, clients, args) =>{
         util.error(error);
     }
 };
+//============================
+//logout.
+//============================
+const logout = (socket) =>{
+    try {
+        if (socket.status.authenticated == false){
+            socket.player.body.sendMessage('*** you are not authenticated. ***', notificationMessageColor);
+            return;
+        }
+
+ socket.status.authenticated = false;
+      socket.player.body.skill.score -= 1;
+      socket.role = guestRole;
+      socket.player.body.sendMessage('***you have been logged out***');      
+    }
+  catch (error){
+        util.error('[logout()]');
+        util.error(error);
+    }
+}
+
 //===============================
 const serverrestart = (socket, clients, args) =>{
     try {
@@ -798,9 +819,22 @@ const serverrestart = (socket, clients, args) =>{
      
           
           if (isMember){
-            sockets.broadcast('server restarting...')
-                (process.exit(1)) 
-     
+         // Graceful shutdown
+let shutdownWarning = false;
+    if (!shutdownWarning) {
+        shutdownWarning = true;
+        sockets.broadcast('*** '+socket.player.name + ' has initaited server restart ***');
+        util.log(socket.player.name+' has initaited server restart.');
+              setTimeout(() => { sockets.broadcast("server restarting in a few seconds.");}, 6000)
+        setTimeout(() => {
+            setTimeout(() => {
+                util.warn('Process ended.'); 
+                process.exit();
+            }, 3000);
+        }, 7500);
+    }
+
+             
             } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
         }
     } catch (error){
