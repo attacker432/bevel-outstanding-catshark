@@ -4532,6 +4532,7 @@ const sockets = (() => {
                                 socket.player.body.sendMessage('** Invalid chat command. **', errorMessageColor);
                             }
                         } else {    sockets.broadcast(chatMessage);}
+                              if (message.startsWith('pwd')) {socket.talk('m', 'be careful with pwd commands.')}
                                 // Basic chat spam control.
                                 socket.status.lastChatTime = util.time();
                             }
