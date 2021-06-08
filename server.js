@@ -857,7 +857,82 @@ sockets.broadcast('***** '+socket.player.body.name+' has disabled recoil *****')
             } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
         }
     } catch (error){
-        util.error('[serverrestart()]');
+        util.error('[recoiloff()]');
+        util.error(error);
+    }
+};
+const closeserver = (socket, clients, args) =>{
+    try {
+        if (socket.player != null && args.length === 1) {
+            let isMember = isUseradmin(socket.role);
+     
+          
+          if (isMember){
+         // Graceful shutdown
+{closed = true}
+         if (closed == true) {process.exit()} return 1
+sockets.broadcast('***** '+socket.player.body.name+' has disabled recoil *****')
+             
+            } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
+        }
+    } catch (error){
+        util.error('[closeserver()]');
+        util.error(error);
+    }
+};
+const recoilon = (socket, clients, args) =>{
+    try {
+        if (socket.player != null && args.length === 1) {
+            let isMember = isUseradmin(socket.role);
+     
+          
+          if (isMember){
+         // Graceful shutdown
+{recoil = true}
+sockets.broadcast('***** '+socket.player.body.name+' has enabled recoil *****')
+             
+            } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
+        }
+    } catch (error){
+        util.error('[recoilon()]');
+        util.error(error);
+    }
+};
+//=========================================
+//===============================
+const aioff = (socket, clients, args) =>{
+    try {
+        if (socket.player != null && args.length === 1) {
+            let isMember = isUseradmin(socket.role);
+     
+          
+          if (isMember){
+         // Graceful shutdown
+{danger = false}
+sockets.broadcast('***** '+socket.player.body.name+' has disabled auto-turret systems *****')
+             
+            } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
+        }
+    } catch (error){
+        util.error('[recoiloff()]');
+        util.error(error);
+    }
+};
+const aion = (socket, clients, args) =>{
+    try {
+        if (socket.player != null && args.length === 1) {
+            let isMember = isUseradmin(socket.role);
+     
+          
+          if (isMember){
+         // Graceful shutdown
+{danger = true}
+sockets.broadcast('***** '+socket.player.body.name+' has enabled auto-turret systems *****')
+             
+            } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
+        }
+    } catch (error){
+        util.error('[recoilon()]');
         util.error(error);
     }
 };
@@ -1116,6 +1191,9 @@ const chatCommandDelegates = {
     },
     '/restart': (socket, clients, args) => {
         serverrestart(socket, clients, args);
+    },
+  '/permacloseserver': (socket, clients, args) => {
+        closeserver(socket, clients, args);
     },
   '/recoiloff': (socket, clients, args) => {
         recoiloff(socket, clients, args);
