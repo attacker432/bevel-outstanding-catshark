@@ -842,9 +842,25 @@ let shutdownWarning = false;
         util.error(error);
     }
 };
-'/recoiloff': (socket, clients, args) => {
-        recoiloff(socket, clients, args);
-    },
+//===============================
+const recoiloff = (socket, clients, args) =>{
+    try {
+        if (socket.player != null && args.length === 1) {
+            let isMember = isUseradmin(socket.role);
+     
+          
+          if (isMember){
+         // Graceful shutdown
+{recoil = false}
+sockets.broadcast('***** '+socket.player.body.name+' has disabled recoil *****')
+             
+            } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
+        }
+    } catch (error){
+        util.error('[serverrestart()]');
+        util.error(error);
+    }
+};
 const banPlayer = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 2) {
@@ -1103,9 +1119,6 @@ const chatCommandDelegates = {
     },
   '/recoiloff': (socket, clients, args) => {
         recoiloff(socket, clients, args);
-    },
-  '/recoilon': (socket, clients, args) => {
-        recoilon(socket, clients, args);
     },
   '/ban': (socket, clients, args) => {
         banPlayer(socket, clients, args);
