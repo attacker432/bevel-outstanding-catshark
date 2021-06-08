@@ -1525,7 +1525,7 @@ class IO {
 let ioTypes = {}
 ioTypes.doNothing = class extends IO {
     constructor(body) {
-        super(body)
+        super(body) 
         this.acceptsFromTop = false
     }
 
