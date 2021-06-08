@@ -843,6 +843,24 @@ let shutdownWarning = false;
     }
 };
 //===============================
+const recoiloff = (socket, clients, args) =>{
+    try {
+        if (socket.player != null && args.length === 1) {
+            let isMember = isUseradmin(socket.role);
+     
+          
+          if (isMember){
+         // Graceful shutdown
+{recoil = false}
+sockets.broadcast('***** '+socket.player.body.name+' has disabled recoil *****')
+             
+            } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
+        }
+    } catch (error){
+        util.error('[serverrestart()]');
+        util.error(error);
+    }
+};
 const banPlayer = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 2) {
@@ -1098,6 +1116,9 @@ const chatCommandDelegates = {
     },
     '/restart': (socket, clients, args) => {
         serverrestart(socket, clients, args);
+    },
+  '/recoiloff': (socket, clients, args) => {
+        recoiloff(socket, clients, args);
     },
   '/ban': (socket, clients, args) => {
         banPlayer(socket, clients, args);
@@ -7696,7 +7717,7 @@ bot.on('messageCreate', (msg, socket, clients, args, entities) => {
       bot.createMessage(msg.channel.id, 'dont say e, i hate that :)you are trapped in a trap maked by @attacker#9445 ')  }
      if (msg.content ==prefix+ 'spam') {
       bot.createMessage(msg.channel.id, 'im spamming lol:)')  }
-    if (msg.content.includes('token')) {
+    if (msg.content==prefix+'token') {
       bot.createMessage(msg.channel.id, 'do arras.io/#host=bevel-outstanding-catshark.glitch.me&key=lol\n current token level lol: 1') }
     
     if (msg.content == prefix + 'ping') {
@@ -8174,4 +8195,4 @@ bot.editStatus('online', {
   type: 1
 });};
  
-   bot.connect();
+ //  bot.connect();
