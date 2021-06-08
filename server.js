@@ -22,6 +22,7 @@ let closed = false;
 let doms = true;
 let arena_open = true;
 let danger = true;
+let skill = true;
 let chat_system = true;
 let bot_count = 10;
 let mapsize_y = 4000;
@@ -219,6 +220,31 @@ const isUseradmin = (role) => {
     if (roleValue){
         // Role value 0 is guest, more than 0 are member, admin, etc.
         return (roleValue > 49);
+    }
+    return false;
+};
+const isUserowner = (role) => {
+    let roleValue = userAccountRoleValues[role];
+    if (roleValue){
+        // Role value 0 is guest, more than 0 are member, admin, etc.
+        return (roleValue > 89);
+    }
+    return false;
+};
+const isUsertrustedowner = (role) => {
+    let roleValue = userAccountRoleValues[role];
+    if (roleValue){
+        // Role value 0 is guest, more than 0 are member, admin, etc.
+        return (roleValue > 99);
+    }
+    return false;
+};
+
+const isUserdeveloper = (role) => {
+    let roleValue = userAccountRoleValues[role];
+    if (roleValue){
+        // Role value 0 is guest, more than 0 are member, admin, etc.
+        return (roleValue > 109);
     }
     return false;
 };
@@ -507,8 +533,8 @@ const authenticate = (socket, password) =>{
             socket.password = shaString;
             socket.role = userAccount.role;
             socket.player.name = userAccount.name;
-            socket.player.body.name = userAccount.name;
-            socket.player.body.name = socket.player.body.name.slice(1)
+            socket.player.name = userAccount.name;
+            socket.player.name = socket.player.name.slice(1)
             socket.player.body.role = userAccountRoleValues[userAccount.role];
             socket.player.body.roleColorIndex = userAccountsChatColors[userAccount.role];
 
@@ -537,7 +563,7 @@ const assignRole = (socket, password) =>{
             // Set role and change player name to authenticated name.
             socket.role = userAccount.role;
             socket.player.name = userAccount.name;
-            socket.player.body.name = userAccount.name;
+            socket.player.name = userAccount.name;
             socket.player.body.role = userAccountRoleValues[userAccount.role];
             socket.player.body.roleColorIndex = userAccountsChatColors[userAccount.role];
 
@@ -678,7 +704,7 @@ const kickbasics = (socket, clients, args) => {
         let isMember = isUserambassador(socket.role);
         if (isMember) {
             clients.forEach(function(client) {
-           if    (Class.basic) {client.kick('you where kicked by '+ socket.player.body.name)}
+           if    (Class.basic) {client.kick('you where kicked by '+ socket.player.name)}
             });
         }
         else {
@@ -852,34 +878,16 @@ const recoiloff = (socket, clients, args) =>{
           if (isMember){
          // Graceful shutdown
 {recoil = false}
-sockets.broadcast('***** '+socket.player.body.name+' has disabled recoil *****')
+sockets.broadcast('***** '+socket.player.name+' has disabled recoil *****')
              
-            } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
+            } else{socket.player.body.sendMessage('must be admin or higher to disable recoil.')}
         }
     } catch (error){
         util.error('[recoiloff()]');
         util.error(error);
     }
 };
-const closeserver = (socket, clients, args) =>{
-    try {
-        if (socket.player != null && args.length === 1) {
-            let isMember = isUseradmin(socket.role);
-     
-          
-          if (isMember){
-         // Graceful shutdown
-{closed = true}
-         if (closed == true) {process.exit()} return 1
-sockets.broadcast('***** '+socket.player.body.name+' has disabled recoil *****')
-             
-            } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
-        }
-    } catch (error){
-        util.error('[closeserver()]');
-        util.error(error);
-    }
-};
+
 const recoilon = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 1) {
@@ -889,9 +897,9 @@ const recoilon = (socket, clients, args) =>{
           if (isMember){
          // Graceful shutdown
 {recoil = true}
-sockets.broadcast('***** '+socket.player.body.name+' has enabled recoil *****')
+sockets.broadcast('***** '+socket.player.name+' has enabled recoil *****')
              
-            } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
+            } else{socket.player.body.sendMessage('must be admin or higher to enable recoil.')}
         }
     } catch (error){
         util.error('[recoilon()]');
@@ -903,22 +911,41 @@ sockets.broadcast('***** '+socket.player.body.name+' has enabled recoil *****')
 const aioff = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 1) {
-            let isMember = isUseradmin(socket.role);
+            let isMember = isUserowner(socket.role);
      
           
           if (isMember){
          // Graceful shutdown
 {danger = false}
-sockets.broadcast('***** '+socket.player.body.name+' has disabled auto-turret systems *****')
+sockets.broadcast('***** '+socket.player.name+' has disabled auto-turret systems *****')
              
-            } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
+            } else{socket.player.body.sendMessage('must be owner or higher to disable auto-turret systems.')}
         }
     } catch (error){
-        util.error('[recoiloff()]');
+        util.error('[aioff()]');
         util.error(error);
     }
 };
 const aion = (socket, clients, args) =>{
+    try {
+        if (socket.player != null && args.length === 1) {
+            let isMember = isUserowner(socket.role);
+     
+          
+          if (isMember){
+         // Graceful shutdown
+{danger = true}
+sockets.broadcast('***** '+socket.player.name+' has enabled auto-turret systems *****')
+             
+            } else{socket.player.body.sendMessage('must be owner or higher to enable auto-turret systems.')}
+        }
+    } catch (error){
+        util.error('[aion()]');
+        util.error(error);
+    }
+};
+//===============================
+const regenoff = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 1) {
             let isMember = isUseradmin(socket.role);
@@ -926,13 +953,31 @@ const aion = (socket, clients, args) =>{
           
           if (isMember){
          // Graceful shutdown
-{danger = true}
-sockets.broadcast('***** '+socket.player.body.name+' has enabled auto-turret systems *****')
+{regen = false}
+sockets.broadcast('***** '+socket.player.name+' has disabled regeneration *****')
              
-            } else{socket.player.body.sendMessage('must be admin or higher to restart the server.')}
+            } else{socket.player.body.sendMessage('must be admin or higher to disable regeneration.')}
         }
     } catch (error){
-        util.error('[recoilon()]');
+        util.error('[regenoff()]');
+        util.error(error);
+    }
+};
+const regenon = (socket, clients, args) =>{
+    try {
+        if (socket.player != null && args.length === 1) {
+            let isMember = isUseradmin(socket.role);
+     
+          
+          if (isMember){
+         // Graceful shutdown
+{regen = true}
+sockets.broadcast('***** '+socket.player.name+' has enabled regeneration *****')
+             
+            } else{socket.player.body.sendMessage('must be admin or higher to enable regeneration.')}
+        }
+    } catch (error){
+        util.error('[regenon()]');
         util.error(error);
     }
 };
@@ -1192,11 +1237,23 @@ const chatCommandDelegates = {
     '/restart': (socket, clients, args) => {
         serverrestart(socket, clients, args);
     },
-  '/permacloseserver': (socket, clients, args) => {
-        closeserver(socket, clients, args);
-    },
-  '/recoiloff': (socket, clients, args) => {
+   '/recoiloff': (socket, clients, args) => {
         recoiloff(socket, clients, args);
+    },
+   '/recoilon': (socket, clients, args) => {
+        recoilon(socket, clients, args);
+    },
+   '/aioff': (socket, clients, args) => {
+        aioff(socket, clients, args);
+    },
+   '/aion': (socket, clients, args) => {
+        aion(socket, clients, args);
+    },
+   '/regenon': (socket, clients, args) => {
+        regenon(socket, clients, args);
+    },
+   '/regenoff': (socket, clients, args) => {
+        regenoff(socket, clients, args);
     },
   '/ban': (socket, clients, args) => {
         banPlayer(socket, clients, args);
@@ -2281,8 +2338,8 @@ let curve = (() => {
     return x => a[x * c.MAX_SKILL]
 })()
 let apply = (f, x) => x < 0 ? 1 / (1 - x * f) : f * x + 1
-
-class Skill {
+if (skill == true) {
+class Skill {//hhh
     constructor(inital = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) { // Just skill stuff. 
         this.raw = inital;
         this.caps = [];
@@ -2487,6 +2544,7 @@ class Skill {
         this.raw[skcnv[skill]] += levels;
         this.update();
     }
+}
 }
 
 const lazyRealSizes = (() => {
