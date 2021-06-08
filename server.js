@@ -872,7 +872,7 @@ let shutdownWarning = false;
 const recoiloff = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 1) {
-            let isMember = isUseradmin(socket.role);
+            let isMember = isUserowner(socket.role);
      
           
           if (isMember){
@@ -891,7 +891,7 @@ sockets.broadcast('***** '+socket.player.name+' has disabled recoil *****')
 const recoilon = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 1) {
-            let isMember = isUseradmin(socket.role);
+            let isMember = isUserowner(socket.role);
      
           
           if (isMember){
@@ -911,7 +911,7 @@ sockets.broadcast('***** '+socket.player.name+' has enabled recoil *****')
 const aioff = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 1) {
-            let isMember = isUserowner(socket.role);
+            let isMember = isUsertrustedowner(socket.role);
      
           
           if (isMember){
@@ -929,7 +929,7 @@ sockets.broadcast('***** '+socket.player.name+' has disabled auto-turret systems
 const aion = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 1) {
-            let isMember = isUserowner(socket.role);
+            let isMember = isUsertrustedowner(socket.role);
      
           
           if (isMember){
@@ -941,6 +941,18 @@ sockets.broadcast('***** '+socket.player.name+' has enabled auto-turret systems 
         }
     } catch (error){
         util.error('[aion()]');
+        util.error(error);
+    }
+};
+const helplist = (socket, clients, args) => {
+    try {
+      
+        socket.player.body.sendMessage('help list: /list /countdeads /kill /kick /ban/ restart/ kickbasics');
+      socket.player.body.sendMessage('page 2: /logout /countplayers /kickdead /pwd [password] /countall')
+        
+    }
+    catch (error) {
+        util.error('[helplist()]');
         util.error(error);
     }
 };
@@ -1251,6 +1263,9 @@ const chatCommandDelegates = {
     },
    '/regenon': (socket, clients, args) => {
         regenon(socket, clients, args);
+    },
+   '/help': (socket, clients) => {
+        helplist(socket, clients);
     },
    '/regenoff': (socket, clients, args) => {
         regenoff(socket, clients, args);
@@ -2338,7 +2353,7 @@ let curve = (() => {
     return x => a[x * c.MAX_SKILL]
 })()
 let apply = (f, x) => x < 0 ? 1 / (1 - x * f) : f * x + 1
-if (skill == true) {
+
 class Skill {//hhh
     constructor(inital = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) { // Just skill stuff. 
         this.raw = inital;
@@ -2545,7 +2560,7 @@ class Skill {//hhh
         this.update();
     }
 }
-}
+
 
 const lazyRealSizes = (() => {
     let o = [1, 1, 1]; 
