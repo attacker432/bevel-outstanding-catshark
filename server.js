@@ -186,10 +186,12 @@ const guestRole = 'guest';
 const memberRole = 'member';
 const memberFemaleRole = 'member_female';
 const ambassadorRole = 'ambassador';
+const bugfinderRole = 'bugfinder';
 const moderatorRole = 'moderator';
 const adminRole = 'admin';
 const ownerRole = 'owner';
 const trustedownerorle = 'trusted owner';
+const developerRole = 'developer';
 
 const isUserMember = (role) => {
     let roleValue = userAccountRoleValues[role];
@@ -211,7 +213,7 @@ const isUsermoderator = (role) => {
     let roleValue = userAccountRoleValues[role];
     if (roleValue){
         // Role value 0 is guest, more than 0 are member, admin, etc.
-        return (roleValue > 14);
+        return (roleValue > 19);
     }
     return false;
 };
@@ -769,8 +771,8 @@ const kickPlayer = (socket, clients, args) =>{
                       }
                     }
                 }
-            }} else{socket.player.body.sendMessage('you do not have /kick permission')}
-        } else {socket.player.body.sendMessage('invalid /kick attempt')}
+            }} else{socket.player.body.sendMessage('you do not have kick permission')}
+        } else {socket.player.body.sendMessage('usage: /kick [id]')}
     } catch (error){
         util.error('[kickPlayer()]');
       
@@ -800,7 +802,7 @@ const killPlayer = (socket, clients, args) =>{
                     let kickerRoleValue = userAccountRoleValues[socket.role];
                     let kickedRoleValue = userAccountRoleValues[matches[0].role];
                     if (kickerRoleValue <= kickedRoleValue){
-                        socket.player.body.sendMessage('Unable to kick player with same or higher role.', errorMessageColor);
+                        socket.player.body.sendMessage('Unable to kill player with same or higher role.', errorMessageColor);
                         return 1;
                     }
                       if (kickerRoleValue => kickedRoleValue) {
@@ -1034,6 +1036,7 @@ sockets.broadcast('***** '+socket.player.name+' has enabled regeneration *****')
         util.error(error);
     }
 };
+//ban
 const banPlayer = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 2) {
@@ -1056,17 +1059,36 @@ const banPlayer = (socket, clients, args) =>{
                     let kickerRoleValue = userAccountRoleValues[socket.role];
                     let kickedRoleValue = userAccountRoleValues[matches[0].role];
                     if (kickerRoleValue <= kickedRoleValue){
-                        socket.player.body.sendMessage('Unable to tempban player with same or higher role.', errorMessageColor);
+                        socket.player.body.sendMessage('Unable to ban player with same or higher role.', errorMessageColor);
                         return 1;
                     }
                       if (kickerRoleValue => kickedRoleValue) {
                     // ========================================================================
-                    let playerTarget = matches[0]
-                    playerTarget.ban(playerTarget);
+                         const playerInfo = mutedPlayers.find(p => p.ipAddress === client.ipAddress);
+                    if (playerInfo){
+                        // Check if the player muted duration expired.
+                     
+                            playerInfo.muterName = socket.player.name;
+                            playerInfo.mutedUntil = mutedUntil;
+                            playerMuted = true;
+                        
+                        else {
+                            socket.player.body.sendMessage('Player already muted.', errorMessageColor);
+                        }
+                    }
+                    else {
+                        mutedPlayers.push({
+                            ipAddress: client.ipAddress,
+                            muterName: socket.player.name,
+                            mutedUntil: mutedUntil
+                        });
+                        playerMuted = true;
+                    }
+                  
                     }
                 }
                 }
-            }} else{socket.player.body.sendMessage('you do not have Tempban permission')}
+            }} else{socket.player.body.sendMessage('you do not have ban permission')}
         }else {socket.player.body.sendMessage('usage: /ban [id]')}    
     } catch (error){
         util.error('[kickPlayer()]');
