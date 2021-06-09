@@ -829,6 +829,7 @@ const logout = (socket) =>{
  socket.status.authenticated = false;
       socket.player.body.skill.score -= 1;
       socket.role = guestRole;
+       socket.password = [];
       socket.player.body.sendMessage('***you have been logged out***');      
     }
   catch (error){
@@ -836,7 +837,47 @@ const logout = (socket) =>{
         util.error(error);
     }
 }
+const closeArena = (socket, clients, args) => {
+    try {
+       if (socket.player != null && args.length === 2) {
+       let isMember = isUsertrustedowner(socket.role);
+       
+  if (isMember){
+    let spawnArenaClosers = count => {
+ 
+    let i
+        for (i = 1; i < count+1; i++) {
+            let spot, i = 30;
+            do { spot = room.randomType('nest'); i--; if (!i) return 0; } while (dirtyCheck(spot, 100));
+         
+            let o = new Entity(room.random());
+                  {
+                    o.color = 3;
+                    o.define(Class.arenaCloser);
+                    o.define({ CAN_BE_ON_LEADERBOARD: false, });
+                    o.name = "Arena Closer"
+                    o.refreshBodyAttributes();
+                    o.color = 3;
+                    o.team = -100
+                  };
+           arena_open =false;
+         
 
+           
+            }
+  };
+    let count = args[1]
+    if (count >5) {socket.player.body.sendMessage('max count is 5')} else {
+    spawnArenaClosers(count)}
+  } else {socket.player.body.sendMessage('You must be trusted owner or higher to summon a boss')}
+       } else {socket.player.body.sendMessage("usage: /closearena [count max 5]");}
+    }
+    catch (error) {
+        util.error('[closeArena()]');
+        util.error(error);
+    }
+};
+// ===============================================
 //===============================
 const serverrestart = (socket, clients, args) =>{
     try {
@@ -1248,6 +1289,15 @@ const chatCommandDelegates = {
     },
     '/restart': (socket, clients, args) => {
         serverrestart(socket, clients, args);
+    },
+     '/closearena': (socket, clients, args) => {
+        if (socket.player != null && args.length === 2) {
+           let count = args[1]
+            closeArena(socket, clients, args);
+        }
+    },
+    '/logout': (socket, clients, args) => {
+        logout(socket, clients, args);
     },
    '/recoiloff': (socket, clients, args) => {
         recoiloff(socket, clients, args);
@@ -3091,10 +3141,10 @@ class HealthType {
         }            
     }
 
-    regenerate(boost = false) {
-      if (regen == true) {
+   regenerate(boost = false) {
         boost /= 5;
         let cons = 1;
+        if (regen == true) {
         switch (this.type) {
         case 'static':
             if (this.amount >= this.max || !this.amount) break;
@@ -3114,7 +3164,7 @@ class HealthType {
         }
         this.amount = util.clamp(this.amount, 0, this.max);
       } else {
-        boost /= 0;
+        boost /= 5;
         let cons = 0;
         switch (this.type) {
         case 'static':
@@ -3124,7 +3174,7 @@ class HealthType {
         case 'dynamic':
             let r = util.clamp(this.amount / this.max, 0, 1);
             if (!r) {
-                this.amount = 0.0001;
+                this.amount = 9;
             }
             if (r === 1) {
                 this.amount = this.max;
@@ -3135,6 +3185,7 @@ class HealthType {
         }
         this.amount = util.clamp(this.amount, 0, this.max);}
     }
+
 
     get permeability() {
         switch(this.type) {
