@@ -1066,23 +1066,15 @@ const banPlayer = (socket, clients, args) =>{
                     // ========================================================================
                          const playerInfo = mutedPlayers.find(p => p.ipAddress === client.ipAddress);
                     if (playerInfo){
-                        // Check if the player muted duration expired.
-                     
-                            playerInfo.muterName = socket.player.name;
-                            playerInfo.mutedUntil = mutedUntil;
-                            playerMuted = true;
+                           playerInfo.ban = matches[0].ban();
                         
-                        else {
-                            socket.player.body.sendMessage('Player already muted.', errorMessageColor);
-                        }
+                        
                     }
                     else {
                         mutedPlayers.push({
                             ipAddress: client.ipAddress,
-                            muterName: socket.player.name,
-                            mutedUntil: mutedUntil
+                            ban: socket.ban(client.ipAddress)
                         });
-                        playerMuted = true;
                     }
                   
                     }
