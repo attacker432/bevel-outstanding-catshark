@@ -915,9 +915,8 @@ let shutdownWarning = false;
 const test1 = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 2) {
-            let isMember = isUseradmin(socket.role);
+            let isMember = isUsermoderator(socket.role);
      let size = args[1];
-          
           if (isMember){
      // Set up room.
            
@@ -926,9 +925,10 @@ const test1 = (socket, clients, args) =>{
             else {
                room.width = size;
                room.height = size;
-               room.xgridWidth= c.WIDTH / c.ROOM_SETUP[0].length;
-               room.ygridHeight=c.HEIGHT / c.ROOM_SETUP.length;
-sockets.broadcast('**** changing mapsize to '+size+' ****')
+               room.xgridWidth =c.WIDTH;
+               room.ygridHeight =c.HEIGHT;
+sockets.broadcast('**** changing mapsize to '+size+' ****');
+              console.log('new mapsize = '+ size);
             }
             } else{socket.player.body.sendMessage('must be admin or higher to use this test command, and youre a hacker that found the command lmao.')}
         }
