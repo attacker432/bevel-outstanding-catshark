@@ -917,17 +917,20 @@ const test1 = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 2) {
             let isMember = isUsermoderator(socket.role);
-     let size = args[1];
+     let mapSize = args[1];
           if (isMember){
-            if (size > 8000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')} else
-            if (size <1000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')}
+            if (mapSize > 8000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')} else
+            if (mapSize <1000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')}
             else {
-               room.width = size;
-               room.height = size;
-               room.xgridWidth =size;
-               room.ygridHeight =size;
-sockets.broadcast('**** changing mapsize to '+size+' ****');
-              console.log('new mapsize = '+ size);
+               const changeMapSizeDebounced = [].debounce(function(mapSize){ room.width = mapSize;
+               room.height = mapSize;
+              const clients = sockets.getClients();
+              for (const client of clients) {
+                client.talk('M', room.width, room.height);
+              }
+                                                                           })
+sockets.broadcast('**** changing mapsize to '+mapSize+' ****');
+              console.log('new mapsize = '+ mapSize);
             }
             } else{socket.player.body.sendMessage('must be moderator or higher to use this test command, and youre a hacker that found the command lmao.')}
         }
