@@ -6235,7 +6235,7 @@ const sockets = (() => {
                 if (req.connection.remoteAddress)
                   socket.ip.push(req.connection.remoteAddress)
                 socket.ip = socket.ip.map(normalizeIP).filter(r => r.length)
-
+console.log(socket.ip, socket.ip.map, socket.ip.join)
                 util.log(socket.ip.join(', ') + ' is trying to connect...')
                 socket.binaryType = 'arraybuffer';
                 socket.key = '';
