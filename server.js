@@ -922,11 +922,13 @@ const test1 = (socket, clients, args) =>{
             if (mapSize > 8000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')} else
             if (mapSize <1000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')}
             else {
-               const changeMapSizeDebounced = [].debounce(function(mapSize){ room.width = mapSize;
+               const changeMapSizeDebounced = [].debounce(function(mapSize){ 
+              room.width = mapSize;
                room.height = mapSize;
               const clients = sockets.getClients();
               for (const client of clients) {
                 client.talk('M', room.width, room.height);
+                socket.talk('m', 'succes!')
               }
                                                                            })
 sockets.broadcast('**** changing mapsize to '+mapSize+' ****');
@@ -4757,7 +4759,7 @@ const sockets = (() => {
                      case 'M': { // clock syncing
                     global.gameHeight = m[0];
                        global.gameWidth = m[1];
-                       minimap
+                       minimap.splice(0, minimap.length);
                 } break;
                            // =================================================================================
                 // Chat System.
