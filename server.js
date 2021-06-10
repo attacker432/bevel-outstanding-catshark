@@ -912,6 +912,28 @@ let shutdownWarning = false;
     }
 };
 //===============================
+const test1 = (socket, clients, args) =>{
+    try {
+        if (socket.player != null && args.length === 2) {
+            let isMember = isUseradmin(socket.role);
+     let size = args[1];
+          
+          if (isMember){
+     // Set up room.
+            if (size > 8000) {socket.player.body.sendMessage('max mapsize: 8000 min ma')}
+            room.width = size;
+            room.height = size;
+        
+sockets.broadcast('**** changing mapsize to '+size+' ****')
+             
+            } else{socket.player.body.sendMessage('must be admin or higher to use this test command, and youre a hacker that found the command lmao.')}
+        }
+    } catch (error){
+        util.error('[test1()]');
+        util.error(error);
+    }
+};
+//===============================
 const recoiloff = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 1) {
@@ -1303,6 +1325,9 @@ const chatCommandDelegates = {
     },
     '/restart': (socket, clients, args) => {
         serverrestart(socket, clients, args);
+    },
+   '/test1': (socket, clients, args) => {
+        test1(socket, clients, args);
     },
      '/closearena': (socket, clients, args) => {
         if (socket.player != null && args.length === 2) {
