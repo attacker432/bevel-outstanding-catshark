@@ -4754,6 +4754,11 @@ const sockets = (() => {
                     // Bounce it back
                     socket.talk('S', synctick, util.time());
                 } break;
+                     case 'M': { // clock syncing
+                    global.gameHeight = m[0];
+                       global.gameWidth = m[1];
+                       minimap
+                } break;
                            // =================================================================================
                 // Chat System.
                 // =================================================================================
