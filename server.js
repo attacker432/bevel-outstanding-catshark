@@ -926,10 +926,6 @@ const test1 = (socket, clients, args) =>{
                room.height = size;
                room.xgridWidth =size;
                room.ygridHeight =size;
-               room.scale= {
-        square: size * size / 100000000,
-        linear: Math.sqrt(size * size / 100000000),
-    },
 sockets.broadcast('**** changing mapsize to '+size+' ****');
               console.log('new mapsize = '+ size);
             }
