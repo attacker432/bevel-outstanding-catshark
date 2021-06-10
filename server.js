@@ -924,8 +924,8 @@ const test1 = (socket, clients, args) =>{
             else {
                room.width = size;
                room.height = size;
-               room.xgridWidth =size;
-               room.ygridHeight =size;
+             
+              
 sockets.broadcast('**** changing mapsize to '+size+' ****');
               console.log('new mapsize = '+ size);
             }
@@ -4146,6 +4146,7 @@ class Entity {
         // Remove from minimap
         let i = minimap.findIndex(entry => { return entry[0] === this.id; });
         if (i != -1) util.remove(minimap, i);
+      
         // Remove this from views
         views.forEach(v => v.remove(this));
         // Remove from parent lists if needed
@@ -6197,7 +6198,7 @@ const sockets = (() => {
                         ...(socket.anon ? [0, 0] : leaderboardUpdate.update))
                     }
                   }
-
+             
                   logs.minimap.mark()
 
                   let time = util.time()
