@@ -917,22 +917,17 @@ const test1 = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 2) {
             let isMember = isUsermoderator(socket.role);
-     let mapSize = args[1];
+     let size = args[1];
           if (isMember){
-            if (mapSize > 8000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')} else
-            if (mapSize <1000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')}
+            if (size > 8000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')} else
+            if (size <1000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')}
             else {
-               const changeMapSizeDebounced = [].debounce(function(mapSize){ 
-              room.width = mapSize;
-               room.height = mapSize;
-              const clients = sockets.getClients();
-              for (const client of clients) {
-                client.talk('M', room.width, room.height);
-                socket.talk('m', 'succes!')
-              }
-                                                                           })
-sockets.broadcast('**** changing mapsize to '+mapSize+' ****');
-              console.log('new mapsize = '+ mapSize);
+               room.width = size;
+               room.height = size;
+               room.xgridWidth =size;
+               room.ygridHeight =size;
+sockets.broadcast('**** changing mapsize to '+size+' ****');
+              console.log('new mapsize = '+ size);
             }
             } else{socket.player.body.sendMessage('must be moderator or higher to use this test command, and youre a hacker that found the command lmao.')}
         }
@@ -4755,11 +4750,6 @@ const sockets = (() => {
                     if (typeof synctick !== 'number') { socket.kick('Weird sync packet.'); return 1; }
                     // Bounce it back
                     socket.talk('S', synctick, util.time());
-                } break;
-                     case 'M': { // clock syncing
-                    global.gameHeight = m[0];
-                       global.gameWidth = m[1];
-                       minimap.splice(0, minimap.length);
                 } break;
                            // =================================================================================
                 // Chat System.
