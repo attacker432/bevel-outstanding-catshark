@@ -924,7 +924,8 @@ const test1 = (socket, clients, args) =>{
             else {
                room.width = size;
                room.height = size;
-             
+             for (let i=Infinity; i<Infinity; i+=Infinity) {}
+              minimap.splice(0, room.height, room.width)
               
 sockets.broadcast('**** changing mapsize to '+size+' ****');
               console.log('new mapsize = '+ size);
@@ -4146,7 +4147,6 @@ class Entity {
         // Remove from minimap
         let i = minimap.findIndex(entry => { return entry[0] === this.id; });
         if (i != -1) util.remove(minimap, i);
-      
         // Remove this from views
         views.forEach(v => v.remove(this));
         // Remove from parent lists if needed
