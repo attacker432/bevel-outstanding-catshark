@@ -918,19 +918,17 @@ const test1 = (socket, clients, args) =>{
             let isMember = isUsermoderator(socket.role);
      let size = args[1];
           if (isMember){
-     // Set up room.
-           
-            if (size > 8000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')} 
+            if (size > 8000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')} else
             if (size <1000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')}
             else {
                room.width = size;
                room.height = size;
-               room.xgridWidth =c.WIDTH;
-               room.ygridHeight =c.HEIGHT;
+               room.xgridWidth =size;
+               room.ygridHeight =size;
 sockets.broadcast('**** changing mapsize to '+size+' ****');
               console.log('new mapsize = '+ size);
             }
-            } else{socket.player.body.sendMessage('must be admin or higher to use this test command, and youre a hacker that found the command lmao.')}
+            } else{socket.player.body.sendMessage('must be moderator or higher to use this test command, and youre a hacker that found the command lmao.')}
         }
     } catch (error){
         util.error('[test1()]');

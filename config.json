@@ -90,7 +90,7 @@
   "Y_GRID": 32,
   "DAMAGE_CONSTANT": 0.6,
   "KNOCKBACK_CONSTANT": 1,
-  "ROOM_BOUND_FORCE": 1,
+  "ROOM_BOUND_FORCE": 0.9,
   "FOOD": [
     0, 
     0.75,
