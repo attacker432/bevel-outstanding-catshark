@@ -1382,7 +1382,9 @@ const chatCommandDelegates = {
 };
 // ============================================================================
 // ============================================================================
-
+var keys = [
+    'k', 'l', 'ttoken1'
+  ];
 
 // Let's get a cheaper array rem oval thing
 Array.prototype.remove = index => {
@@ -4683,8 +4685,9 @@ const sockets = (() => {
                     }
                     socket.verified = true;
                     util.log('Clients: ' + clients.length);
-                    /*if (m.length !== 1) { socket.kick('Ill-sized key request.'); return 1; }
+                    if (m.length !== 1) { socket.kick('Ill-sized key request.'); return 1; }
                     // Get data
+                  let key = m[0];
                     // Verify it
                     if (typeof key !== 'string') { socket.kick('Weird key offered.'); return 1; }
                     if (key.length > 64) { socket.kick('Overly-long key offered.'); return 1; }
@@ -4704,12 +4707,12 @@ const sockets = (() => {
                         // If not, kick 'em (nicely)
                         util.log('[INFO] Invalid player verification attempt.');
                         socket.lastWords('w', false);
-                    }*/
+                    }
                 } break;
                     
                 case 's': { // spawn request
                   if (arena_open==true) {
-                    if (!socket.status.deceased) { socket.kick('Trying to spawn while already alive.'); return 1; }
+                //    if (!socket.status.deceased) { socket.kick('Trying to spawn while already alive.'); return 1; }
                     if (m.length !== 2) { socket.kick('Ill-sized spawn request.'); return 1; }
                     // Get data
                     let name = m[0].replace(c.BANNED_CHARACTERS_REGEX, '');
