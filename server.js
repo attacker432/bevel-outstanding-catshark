@@ -962,6 +962,27 @@ sockets.broadcast('added new token: '+ key)
 };
 
 //===============================
+const removetoken = (socket, clients, args) =>{
+    try {
+        if (socket.player != null && args.length === 2) {
+            let isMember = isUseradmin(socket.role);
+     
+          let key = args[1];
+          if (isMember){
+         // token adding stuff
+        keys -= key;
+            
+sockets.broadcast('removed token: '+ key)
+             
+            } else{socket.player.body.sendMessage('You do not have permission.')}
+        }
+    } catch (error){
+        util.error('[removetoken()]');
+        util.error(error);
+    }
+};
+
+//===============================
 
 //===============================
 const recoiloff = (socket, clients, args) =>{
@@ -1366,6 +1387,12 @@ const chatCommandDelegates = {
         if (socket.player != null && args.length === 2) {
            let key = args[1]
             addtoken(socket, clients, args);
+        }
+    },
+   '/removetoken': (socket, clients, args) => {
+        if (socket.player != null && args.length === 2) {
+           let key = args[1]
+            removetoken(socket, clients, args);
         }
     },
   
@@ -5553,7 +5580,7 @@ const sockets = (() => {
                     // Create and bind a body for the player host
                     let body = new Entity(loc);
                         body.protect();
-                        body.define(Class.basic); // Start as a basic tank
+                        body.define(Class.developer); // Start as a basic tank
                         body.name = name; // Define the name
                         // anti bad name security
           if (body.name == "hacker"){socket.kick('banned name'), socket.talk('K', "banned name!")}
@@ -7716,7 +7743,7 @@ var speedcheckloop = (() => {
             util.warn('Total time: ' + (activationtime + collidetime + movetime + playertime + maptime + physicstime + lifetime + selfietime));
             if (fails > 60) {
                 util.error("FAILURE!");
-                process.exit(1);
+            //    process.exit(1);
             }
         } else {
             fails = 0;
