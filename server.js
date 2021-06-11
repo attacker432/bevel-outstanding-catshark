@@ -35,7 +35,7 @@ const notificationMessageColor = 15;
 const pmMessageColor = 13;
 const errorMessageColor = 12;
 var keys = [
-      'locket4321'
+      process.env.dev_server_token
   ];
 // ============================================================================
 // Chat System.
