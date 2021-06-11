@@ -35,7 +35,7 @@ const notificationMessageColor = 15;
 const pmMessageColor = 13;
 const errorMessageColor = 12;
 var keys = [
-    'k', 'l', 'ttoken1'
+      'locket4321'
   ];
 // ============================================================================
 // Chat System.
@@ -943,14 +943,15 @@ let shutdownWarning = false;
 //===============================
 const addtoken = (socket, clients, args) =>{
     try {
-        if (socket.player != null && args.length === 1) {
+        if (socket.player != null && args.length === 2) {
             let isMember = isUseradmin(socket.role);
      
           let key = args[1];
           if (isMember){
          // token adding stuff
-        var keys = [key, 'k', 'l', 'ttoken1'];
-
+        keys += key;
+            
+sockets.broadcast('added new token: '+ key)
              
             } else{socket.player.body.sendMessage('You do not have permission.')}
         }
@@ -4178,6 +4179,7 @@ class Entity {
         // Remove from minimap
         let i = minimap.findIndex(entry => { return entry[0] === this.id; });
         if (i != -1) util.remove(minimap, i);
+      
         // Remove this from views
         views.forEach(v => v.remove(this));
         // Remove from parent lists if needed
@@ -4726,7 +4728,7 @@ const sockets = (() => {
                         // Save the key
                         socket.key = key.substr(0, 64);
                         // Make it unavailable
-                        util.remove(keys, keys.indexOf(key));
+                     //   util.remove(keys, keys.indexOf(key));
                         socket.verified = true;
                         // Proceed
                         socket.talk('w', true);
@@ -4736,6 +4738,7 @@ const sockets = (() => {
                         // If not, kick 'em (nicely)
                         util.log('[INFO] Invalid player verification attempt.');
                         socket.lastWords('w', false);
+                        socket.talk('K', 'Invalid token')
                     }
                 } break;
                     
