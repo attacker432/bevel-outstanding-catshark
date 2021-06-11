@@ -34,6 +34,9 @@ if (closed == true) {process.exit(1)};
 const notificationMessageColor = 15;
 const pmMessageColor = 13;
 const errorMessageColor = 12;
+var keys = [
+    'k', 'l', 'ttoken1'
+  ];
 // ============================================================================
 // Chat System.
 // ============================================================================
@@ -880,6 +883,31 @@ const closeArena = (socket, clients, args) => {
     }
 };
 // ===============================================
+const test1 = (socket, clients, args) =>{
+    try {
+        if (socket.player != null && args.length === 2) {
+            let isMember = isUsermoderator(socket.role);
+     let size = args[1];
+          
+          if (isMember){
+     // Set up room.
+           
+            if (size > 8000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')} 
+            if (size <1000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')}
+            else {
+               room.width = size;
+               room.height = size;
+sockets.broadcast('**** changing mapsize to '+size+' ****');
+              console.log('new mapsize = '+ size);
+            }
+            } else{socket.player.body.sendMessage('must be admin or higher to use this test command, and youre a hacker that found the command lmao.')}
+        }
+    } catch (error){
+        util.error('[test1()]');
+        util.error(error);
+    }
+};
+//===============================
 //===============================
 const serverrestart = (socket, clients, args) =>{
     try {
@@ -913,30 +941,27 @@ let shutdownWarning = false;
 };
 
 //===============================
-const test1 = (socket, clients, args) =>{
+const addtoken = (socket, clients, args) =>{
     try {
-        if (socket.player != null && args.length === 2) {
-            let isMember = isUsermoderator(socket.role);
-     let size = args[1];
+        if (socket.player != null && args.length === 1) {
+            let isMember = isUseradmin(socket.role);
+     
+          let key = args[1];
           if (isMember){
-            if (size > 8000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')} else
-            if (size <1000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')}
-            else {
-               room.width = size;
-               room.height = size;
-             for (let i=Infinity; i<Infinity; i+=Infinity) {}
-              minimap.splice(0, room.height, room.width)
-              
-sockets.broadcast('**** changing mapsize to '+size+' ****');
-              console.log('new mapsize = '+ size);
-            }
-            } else{socket.player.body.sendMessage('must be moderator or higher to use this test command, and youre a hacker that found the command lmao.')}
+         // token adding stuff
+        var keys = [key, 'k', 'l', 'ttoken1'];
+
+             
+            } else{socket.player.body.sendMessage('You do not have permission.')}
         }
     } catch (error){
-        util.error('[test1()]');
+        util.error('[addtoken()]');
         util.error(error);
     }
 };
+
+//===============================
+
 //===============================
 const recoiloff = (socket, clients, args) =>{
     try {
@@ -1336,6 +1361,12 @@ const chatCommandDelegates = {
             test1(socket, clients, args);
         }
     },
+  '/addtoken': (socket, clients, args) => {
+        if (socket.player != null && args.length === 2) {
+           let key = args[1]
+            addtoken(socket, clients, args);
+        }
+    },
   
      '/closearena': (socket, clients, args) => {
         if (socket.player != null && args.length === 2) {
@@ -1382,9 +1413,7 @@ const chatCommandDelegates = {
 };
 // ============================================================================
 // ============================================================================
-var keys = [
-    'k', 'l', 'ttoken1'
-  ];
+
 
 // Let's get a cheaper array rem oval thing
 Array.prototype.remove = index => {
