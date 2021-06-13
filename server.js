@@ -969,12 +969,12 @@ const removetoken = (socket, clients, args) =>{
      
           let key = args[1];
           if (isMember){
-            if (key == process.env.dev_server_token) {socket.player.body.sendMessage('this token is the basic token and cant be removed.')}
+            if (key == process.env.dev_server_token) {socket.player.body.sendMessage('this token is the basic token and cant be removed.')} else {
          // token removing stuff
         keys -= key;
             
 sockets.broadcast('removed token: '+ key)
-             
+            }    
             } else{socket.player.body.sendMessage('You do not have permission.')}
         }
     } catch (error){
