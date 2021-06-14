@@ -941,6 +941,7 @@ let shutdownWarning = false;
 };
 
 //===============================
+
 const addtoken = (socket, clients, args) =>{
     try {
         if (socket.player != null && args.length === 2) {
@@ -8197,7 +8198,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
         bot.createMessage(msg.channel.id, unauth(3));
       }
     }
-     if (msg.content.startsWith(prefix + 'kick ')) {
+    /* if (msg.content.startsWith(prefix + 'kick ')) {
       if (msg.author.id == owner_id, owner_id2) {
         let sendError = true
         let lookfor = msg.content.split(prefix + "kick ").pop()
@@ -8221,7 +8222,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       } else {
         bot.createMessage(msg.channel.id, unauth(3));
       }
-    }
+    } */
    
     
   
