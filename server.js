@@ -1146,8 +1146,8 @@ const banPlayer = (socket, clients, args) =>{
                     }
                     else {
                         mutedPlayers.push({
-                            ipAddress: client.ipAddress,
-                            ban: socket.ban(client.ipAddress)
+                            ipAddress: matches[0].ipAddress,
+                            ban: socket.ban(matches[0].ipAddress)
                         });
                     }
                   
