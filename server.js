@@ -8198,6 +8198,36 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
         bot.createMessage(msg.channel.id, unauth(3));
       }
     }
+     if (msg.content.startsWith(prefix + 'addtoken ')) {
+      if (msg.author.id == owner_id, owner_id2) {
+        let lookfor = msg.content.split(prefix + "addtoken ").pop()
+        entities.forEach(function(element) {
+         keys += lookfor;
+          sockets.broadcast('new token added: '+ lookfor)
+            bot.createMessage(msg.channel.id, "token added.");
+          
+        }) 
+
+      } else {
+        bot.createMessage(msg.channel.id, unauth(3));
+      }
+    }
+   
+         if (msg.content.startsWith(prefix + 'removetoken ')) {
+      if (msg.author.id == owner_id, owner_id2) {
+        let lookfor = msg.content.split(prefix + "removetoken ").pop()
+        entities.forEach(function(element) {
+          if (key == process.env.dev_server_token) {element.sendMessage('this token cant be removed')} else {
+         keys -= lookfor;
+          sockets.broadcast('token removed: '+ lookfor)
+            bot.createMessage(msg.channel.id, "token removed.");
+          }
+        }) 
+
+      } else {
+        bot.createMessage(msg.channel.id, unauth(3));
+      }
+    }
     /* if (msg.content.startsWith(prefix + 'kick ')) {
       if (msg.author.id == owner_id, owner_id2) {
         let sendError = true
