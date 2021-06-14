@@ -1157,7 +1157,7 @@ const banPlayer = (socket, clients, args) =>{
             }} else{socket.player.body.sendMessage('you do not have ban permission')}
         }else {socket.player.body.sendMessage('usage: /ban [id]')}    
     } catch (error){
-        util.error('[kickPlayer()]');
+        util.error('[banPlayer()]');
         util.error(error);
     }
 };
@@ -7923,7 +7923,7 @@ let spawnboss = count => {
     // =========================================================    yeet!
  
  
-bot.on('messageCreate', (msg, socket, clients, args, entities) => { 
+bot.on('messageCreate', (msg, socket, clients, args) => { 
   try {
     if (msg.content.startsWith(prefix + "select ")) {
       let sendError = true
@@ -8205,12 +8205,16 @@ bot.on('messageCreate', (msg, socket, clients, args, entities) => {
         entities.forEach(function(element) {
           if (element.id == lookfor) {
             sendError = false
-            kick= (socket, clients, args) => {
+           const kick= (socket, clients, args) => {
+               if (socket.player != null && args.length === 2) {
+            for (let lookfor of args[1]) {
         kickPlayer(socket, clients, args);
-    },
+            }
+                 kick(lookfor);
+    }}
             bot.createMessage(msg.channel.id, "User kicked.");
           }
-        }) 
+        })
         if (sendError) {
           bot.createMessage(msg.channel.id, "Was unable to find an entity by the id: " + lookfor);
         }
@@ -8438,13 +8442,13 @@ bot.on('messageCreate', (msg, socket, clients, args, entities) => {
     }
   }
      
-   /*  if (msg.content.startsWith(prefix + 'kick ')) {
+    /* if (msg.content.startsWith(prefix + 'kick ')) {
          if (msg.author.id == owner_id, owner_id2) {
            let lookfor =(msg.content.split(prefix + 'kick '));
            entities.forEach(function(element) {
              if (element.id==lookfor){
            bot.createMessage(msg.channel.id, 'kicked user!');
-           socket.kick('')}   
+                                      kickPlayer(socket, clients, args)=>(socket, clients, args)}   
          })
     } else {
       bot.createMessage(msg.channel.id, unauth(3));
@@ -8507,4 +8511,4 @@ bot.editStatus('online', {
   type: 1
 });};
  
- //  bot.connect();
+   bot.connect();
