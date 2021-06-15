@@ -730,7 +730,7 @@ const playerslist = (socket, clients, args) => {
     entities.forEach(function(element) {
     if (element.name != '') {
         output += String(element.name + '  -  ' + element.id + '\n')
-    }}) 
+    }});
     socket.player.body.sendMessage(output)
      }
     catch (error) {
@@ -897,6 +897,7 @@ const test1 = (socket, clients, args) =>{
             else {
                room.width = size;
                room.height = size;
+            //  minimap.splice(0, room.width, room.height);
 sockets.broadcast('**** changing mapsize to '+size+' ****');
               console.log('new mapsize = '+ size);
             }
@@ -939,6 +940,9 @@ let shutdownWarning = false;
         util.error(error);
     }
 };
+
+//===============================
+
 
 //===============================
 
@@ -1379,12 +1383,7 @@ const chatCommandDelegates = {
     '/restart': (socket, clients, args) => {
         serverrestart(socket, clients, args);
     },
-   '/playerlist': (socket, clients, args) => {
-        playerslist(socket, clients, args);
-    },
-  '/kickbasics': (socket, clients, args) => {
-        kickbasics(socket, clients, args);
-    },
+   
     '/mapsize': (socket, clients, args) => {
         if (socket.player != null && args.length === 2) {
            let size = args[1]
