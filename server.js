@@ -897,7 +897,7 @@ const test1 = (socket, clients, args) =>{
             else {
                room.width = size;
                room.height = size;
-            //  minimap.splice(0, room.width, room.height);
+            minimap.splice(0, room.width, room.height);
 sockets.broadcast('**** changing mapsize to '+size+' ****');
               console.log('new mapsize = '+ size);
             }
