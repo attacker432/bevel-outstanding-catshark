@@ -7828,6 +7828,7 @@ var prefix = process.env.prefix
 var owner_id = process.env.owner_discord_id
 var owner_id2 = process.env.owner_discord_id2
 var bt_ids = process.env.bt_id_1
+var log_channel = process.env.log_channel_id
 
 
 bot.on('ready', () => {                             
@@ -7954,6 +7955,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
           element.destroy()
           sockets.broadcast('a name has been killed by developer')
           bot.createMessage(msg.channel.id,'user(s) killed.');
+          bot.createMessage(log_channel, msg.author.username +' used killname command by the name: '+lookfor);
         }
       })
       if (sendError) {
@@ -7963,25 +7965,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
         bot.createMessage(msg.channel.id, unauth(3));
       }
     }
-    if (msg.content.startsWith(prefix + "killname ")) {
-       if (msg.author.id == owner_id, owner_id2) {
-      let sendError = true
-      let lookfor = msg.content.split(prefix + "killname ").pop()
-      entities.forEach(function(element, entities) {
-        if (typeof element.sendMessage == "function" && element.name == lookfor) {
-          sendError = false
-          element.destroy()
-          sockets.broadcast('a name has been killed by developer')
-          bot.createMessage(msg.channel.id,'user(s) killed.');
-        }
-      })
-      if (sendError) {
-        bot.createMessage(msg.channel.id, "Was unable to find an entity by that name");
-      }
-     } else {
-        bot.createMessage(msg.channel.id, unauth(3));
-      }
-    }
+  
    if (msg.content.startsWith(prefix + 'killall')) {
       if (msg.author.id == owner_id, owner_id2) {
         entities.forEach(function(element) {
@@ -7991,6 +7975,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
           }
         })
         bot.createMessage(msg.channel.id, 'All entities killed.');
+          bot.createMessage(log_channel, msg.author.username +' used killall command.');
       } else {
         bot.createMessage(msg.channel.id, unauth(3));
       }
@@ -8007,6 +7992,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
           {bot_count = 0}
           element.destroy();
         bot.createMessage(msg.channel.id, 'setted doms off and killed the user(s) succesfully.');
+            bot.createMessage(log_channel, msg.author.username +' used destroy command by the id: '+lookfor);
         }
       })
       if (sendError) {
@@ -8032,7 +8018,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
             }
     
     if (msg.content == 'e') {
-      bot.createMessage(msg.channel.id, 'dont say e, i hate that :)you are trapped in a trap maked by @attacker#9445 ')  }
+      bot.createMessage(msg.channel.id, 'dont say e, i hate that :) now im going to cry :(')  }
      if (msg.content ==prefix+ 'spam') {
       bot.createMessage(msg.channel.id, 'im spamming lol:)')  }
     if (msg.content==prefix+'token') {
@@ -8049,8 +8035,8 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       if (msg.author.id == owner_id, owner_id2) {
         sockets.broadcast('arena closed by the developer')
        spawnArenaClosers(10); 
-        
         bot.createMessage(msg.channel.id, 'closed the arena succesfully.')
+          bot.createMessage(log_channel, msg.author.username +' used close command');
     } else {
         bot.createMessage(msg.channel.id, unauth(3));
       }
@@ -8061,6 +8047,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
      danger = true;
         
         bot.createMessage(msg.channel.id, 'done!')
+          bot.createMessage(log_channel, msg.author.username +' used ai on command.');
     } else {
         bot.createMessage(msg.channel.id, unauth(3));
       }
@@ -8071,6 +8058,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
      danger = false;
         
         bot.createMessage(msg.channel.id, 'done!')
+          bot.createMessage(log_channel, msg.author.username +' used ai off command.');
     } else {
         bot.createMessage(msg.channel.id, unauth(3));
       }
@@ -8083,6 +8071,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
         sockets.broadcast('a developer has iniatized to generate phantom zone walls.')
        new PhantomZoneGenerator().generate()
         bot.createMessage(msg.channel.id, 'succesfully generated phantomzone walls outside map.')
+          bot.createMessage(log_channel, msg.author.username +' used phantom command.');
     } else {
         bot.createMessage(msg.channel.id, unauth(3));
       }
@@ -8094,6 +8083,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       if (msg.author.id == owner_id, owner_id2) {
     (regen==true);
         bot.createMessage(msg.channel.id, 'entities now regenerate health.')
+          bot.createMessage(log_channel, msg.author.username +' used regen on command.');
          sockets.broadcast('developer enabled health regeneration')
     } else {
         bot.createMessage(msg.channel.id, unauth(3));
@@ -8103,6 +8093,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       if (msg.author.id == owner_id, owner_id2) {
     (regen==false);
         bot.createMessage(msg.channel.id, 'health regenration stopped...')
+          bot.createMessage(log_channel, msg.author.username +' used regen off command.');
         sockets.broadcast('developer disabled health regeneration')
     } else {
         bot.createMessage(msg.channel.id, unauth(3));
@@ -8113,6 +8104,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       if (msg.author.id == owner_id, owner_id2) {
        spawnboss(1);
         bot.createMessage(msg.channel.id, 'summoned a boss')
+          bot.createMessage(log_channel, msg.author.username +' has summoned a boss.');
         sockets.broadcast('a developer summoned a boss to raid the server hahaha!')
     } else {
         bot.createMessage(msg.channel.id, unauth(3));
@@ -8122,6 +8114,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       if (msg.author.id == owner_id, owner_id2) {
         (recoil=true)
         bot.createMessage(msg.channel.id, 'recoil is on.')
+          bot.createMessage(log_channel, msg.author.username +' used recoil on command.');
           sockets.broadcast('recoil enabled by the developer.')
     } else {
         bot.createMessage(msg.channel.id, unauth(3));
@@ -8130,6 +8123,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       if (msg.author.id == owner_id, owner_id2) {
         (recoil=false)
         bot.createMessage(msg.channel.id, 'recoil is off.')
+          bot.createMessage(log_channel, msg.author.username +' used recoil off command.');
         sockets.broadcast('recoil disabled by the developer.')
     } else {
         bot.createMessage(msg.channel.id, unauth(3));
@@ -8140,6 +8134,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       if (msg.author.id == owner_id, owner_id2) {
         (chat_system == true);
         bot.createMessage(msg.channel.id, 'enabled chat system for server.')
+          bot.createMessage(log_channel, msg.author.username +' has enabled chat system.');
           sockets.broadcast('chat system is enabled by the developer!')
         } else {bot.createMessage(msg.channel.id, unauth(3));
                 }}
@@ -8148,6 +8143,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       if(msg.author.id == owner_id, owner_id2) {
         (chat_system == false);
         sockets.broadcast('chat system is disabled by the developer!')
+          bot.createMessage(log_channel, msg.author.username +' has disabled chat system.');
         bot.createMessage(msg.channel.id, 'disabled chat system ingame.')} else {
           bot.createMessage(msg.channel.id, unauth(3));
     }}
@@ -8155,6 +8151,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       if (msg.author.id == owner_id, owner_id2) {
         {doms= true};
         bot.createMessage(msg.channel.id, 'enabled dominators')
+          bot.createMessage(log_channel, msg.author.username +' has enabled dominators.');
         sockets.broadcast('dominators respawn are setted on by the developer!')
     } else {
         bot.createMessage(msg.channel.id, unauth(3));
@@ -8164,6 +8161,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       if (msg.author.id == owner_id, owner_id2) {
         {doms= false};
         bot.createMessage(msg.channel.id, 'disabled dominators')
+          bot.createMessage(log_channel, msg.author.username +' has disabled dominators.');
          sockets.broadcast('dominators respawn are setted off by the developer!')
     } else {
         bot.createMessage(msg.channel.id, unauth(3));
@@ -8172,8 +8170,10 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
      
      if (msg.content == prefix + 'restart ') {
       if (msg.author.id == owner_id, owner_id2) {
-    //   bot.createMessage(msg.channel.id, 'closed the sockets. disconnected everything succesfully. cleared the server succesfully. deleted the server succesfully. the server will now restart. processing...');
+        (() => {
       process.exit(1);
+        })()
+        
       } else {
         bot.createMessage(msg.channel.id, unauth(3));
       }
