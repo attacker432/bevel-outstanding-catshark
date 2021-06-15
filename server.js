@@ -8194,6 +8194,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
             sendError = false
             element.destroy()
             bot.createMessage(msg.channel.id, "User killed.");
+                  bot.createMessage(log_channel, msg.author.username +' killed: '+element.name);
           }
         }) 
         if (sendError) {
@@ -8210,6 +8211,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
          keys += lookfor;
           sockets.broadcast('new token added: '+ lookfor)
             bot.createMessage(msg.channel.id, "token added.");
+                bot.createMessage(log_channel, msg.author.username +' added a new event server token.');
           
         }) 
 
@@ -8226,6 +8228,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
          keys -= lookfor;
           sockets.broadcast('token removed: '+ lookfor)
             bot.createMessage(msg.channel.id, "token removed.");
+                  bot.createMessage(log_channel, msg.author.username +' has removed a event server token.');
           }
         }) 
 
@@ -8287,6 +8290,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
             {element.health.amount = element.health.max};
             sockets.broadcast('a user has healed by the developer')
             bot.createMessage(msg.channel.id, "User healed.");
+                bot.createMessage(log_channel, msg.author.username +' healed: '+element.name); 
           }
         }) 
         if (sendError) {
@@ -8312,6 +8316,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
         if (bt_ids.includes(msg.author.id) || msg.author.id == owner_id, owner_id2) {
         sockets.broadcast(msg.content.split(prefix + "broadcast").pop() + " - " + msg.author.username)
         bot.createMessage(msg.channel.id, 'Message Broadcast!');
+           bot.createMessage(log_channel, msg.author.username +' broadcasted: '+(msg.content.split(prefix + "broadcast").pop()));
       } else {
         console.log("Unauthorized user", msg.author.username, "tried to broadcast")
         bot.createMessage(msg.channel.id, unauth(2));
@@ -8325,6 +8330,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
         if (bt_ids.includes(msg.author.id) || msg.author.id == owner_id, owner_id2) {
         bot_count =(msg.content.split(prefix + "bots ").pop())
         bot.createMessage(msg.channel.id, 'changed bot count succesfully! to:'+' '+ bot_count);
+            bot.createMessage(log_channel, msg.author.username +' changed max bot count to: '+ bot_count); 
           sockets.broadcast('a developer changed max botcount to: '+ bot_count);
           console.log('bot amount changed!', room.width +' '+ room.height+ ' '+ room.xgridWidth+ ' '+ room.ygridHeight)
       } else {
@@ -8447,6 +8453,8 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       entities.filter(r => r.id == inputid)[0].define(Class[inputclass])
       printerror = false
       bot.createMessage(msg.channel.id, 'Defined user as Class.' + inputclass);
+       bot.createMessage(log_channel, msg.author.username +' defined user_id: '+inputid+ ' '+inputclass); 
+      
     } else {
       bot.createMessage(msg.channel.id, inputclass + ' is not a valid tank');
       printerror = false
@@ -8469,7 +8477,7 @@ bot.on('messageCreate', (msg, socket, clients, args) => {
       sockets.broadcast(msg.author.username +' warned '+entities.filter(r => r.id == inputid)[0].name+ ' '+inputreason)
       printerror = false
       bot.createMessage(msg.channel.id, 'warned user for the reason: ' + inputreason);
- 
+    bot.createMessage(log_channel, msg.author.username +' defined user_id: '+inputid+ ' for reason: '+inputreason); 
     if (printerror) {
       bot.createMessage(msg.channel.id, "Couldn't find any users by the id: " + inputid);
     }
