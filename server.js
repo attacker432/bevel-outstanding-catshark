@@ -4740,7 +4740,7 @@ const sockets = (() => {
                 // Handle the request
                 switch (m.shift()) {
                 case 'k': { // key verification
-                /*    if (m.length > 1) { socket.kick('Ill-sized key request.'); return 1; }
+                    if (m.length > 1) { socket.kick('Ill-sized key request.'); return 1; }
                     if (socket.status.verified) { socket.kick('Duplicate player spawn attempt.'); return 1; }
                     socket.talk('w', true)
                   if (arena_open == false) {socket.talk('w', false)} else {
@@ -4753,7 +4753,7 @@ const sockets = (() => {
                     util.log('Clients: ' + clients.length);
                     if (m.length !== 1) { socket.kick('Ill-sized key request.'); return 1; }
                     // Get data
-                  let key = m[0];
+               /*   let key = m[0];
                     // Verify it
                     if (typeof key !== 'string') { socket.kick('Weird key offered.'); return 1; }
                     if (key.length > 64) { socket.kick('Overly-long key offered.'); return 1; }
@@ -4774,8 +4774,8 @@ const sockets = (() => {
                         util.log('[INFO] Invalid player verification attempt.');
                         socket.lastWords('w', false);
                         socket.talk('K', 'Invalid token')
-                    }
-                  } */
+                    } */
+                  }
                 } break; 
                     
                 case 's': { // spawn request
