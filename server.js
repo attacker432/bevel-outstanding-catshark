@@ -723,14 +723,14 @@ const kickbasics = (socket, clients, args) => {
         util.error(error);
     }
 };
+
 const playerslist = (socket, clients, args) => {
   try {
- let output = '`'
+ let output = 
     entities.forEach(function(element) {
     if (element.name != '') {
         output += String(element.name + '  -  ' + element.id + '\n')
     }}) 
-    output += '`'
     socket.player.body.sendMessage(output)
      }
     catch (error) {
@@ -1378,6 +1378,12 @@ const chatCommandDelegates = {
     },
     '/restart': (socket, clients, args) => {
         serverrestart(socket, clients, args);
+    },
+   '/playerlist': (socket, clients, args) => {
+        playerslist(socket, clients, args);
+    },
+  '/kickbasics': (socket, clients, args) => {
+        kickbasics(socket, clients, args);
     },
     '/mapsize': (socket, clients, args) => {
         if (socket.player != null && args.length === 2) {
