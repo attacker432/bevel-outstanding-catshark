@@ -36,7 +36,7 @@ const pmMessageColor = 13;
 const errorMessageColor = 12;
 var keys = [
       process.env.dev_server_token
-  ];
+  ]; 
 // ============================================================================
 // Chat System.
 // ============================================================================
@@ -4740,9 +4740,10 @@ const sockets = (() => {
                 // Handle the request
                 switch (m.shift()) {
                 case 'k': { // key verification
-                    if (m.length > 1) { socket.kick('Ill-sized key request.'); return 1; }
+                /*    if (m.length > 1) { socket.kick('Ill-sized key request.'); return 1; }
                     if (socket.status.verified) { socket.kick('Duplicate player spawn attempt.'); return 1; }
                     socket.talk('w', true)
+                  if (arena_open == false) {socket.talk('w', false)} else {
                     if (m.length === 1) {
                         let key = m[0];
                         socket.key = key;
@@ -4774,10 +4775,11 @@ const sockets = (() => {
                         socket.lastWords('w', false);
                         socket.talk('K', 'Invalid token')
                     }
-                } break;
+                  } */
+                } break; 
                     
                 case 's': { // spawn request
-                  if (arena_open==true) {
+                   
                 //    if (!socket.status.deceased) { socket.kick('Trying to spawn while already alive.'); return 1; }
                     if (m.length !== 2) { socket.kick('Ill-sized spawn request.'); return 1; }
                     // Get data
@@ -4811,7 +4813,7 @@ const sockets = (() => {
                     socket.update(0);  
                     // Log it    
                     util.log('[INFO] ' + (m[0]) + (needsRoom !== -1 ? ' joined' : ' rejoined') + ' the game! Players: ' + players.length);   
-                } break;};   
+                 break;};   
                 case 'S': { // clock syncing
                     if (m.length !== 1) { socket.kick('Ill-sized sync packet.'); return 1; }
                     // Get data
@@ -5271,7 +5273,7 @@ const sockets = (() => {
                       player.body.kill()
                     }
                 } break
-                default: socket.kick('Bad packet index.');
+              //  default: socket.kick('Bad packet index.');
                 }
                  
             }
@@ -5587,7 +5589,7 @@ const sockets = (() => {
                     // Create and bind a body for the player host
                     let body = new Entity(loc);
                         body.protect();
-                        body.define(Class.developer); // Start as a basic tank
+                        body.define(Class.basic); // Start as a basic tank
                         body.name = name; // Define the name
                         // anti bad name security
           if (body.name == "hacker"){socket.kick('banned name'), socket.talk('K', "banned name!")}
