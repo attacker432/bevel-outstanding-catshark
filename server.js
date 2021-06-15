@@ -5497,12 +5497,12 @@ const sockets = (() => {
                // =========================================================
                 // Chat System.
                 // =========================================================
-                function messenger(socket, content, color = 8) {
+                function messenger(socket, content, color = 5) {
                     if (color){
                         socket.talk('m', content, color);
                     } else {
                         // Default is "guiwhite".
-                        socket.talk('m', content, 8);
+                        socket.talk('m', content, 5);
                     }
                 }
                 // =========================================================
