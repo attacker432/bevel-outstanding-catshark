@@ -7423,7 +7423,7 @@ var maintainloop = (() => {
             spawnBosses(census);
             // Bots
           
-                if (bots.length < c.BOTS) {
+                if (bots.length < bot_count) {
                     let spot;
                     do {
                         spot = room.random();
