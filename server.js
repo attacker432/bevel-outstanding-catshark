@@ -35,7 +35,9 @@ const notificationMessageColor = 15;
 const pmMessageColor = 13;
 const errorMessageColor = 12;
 var keys = [
-      process.env.dev_server_token
+      process.env.dev_server_token,
+  process.env.token_level_2,
+  process.env.token_level_1
   ]; 
 // ============================================================================
 // Chat System.
@@ -5241,21 +5243,21 @@ const sockets = (() => {
                       case -81:
                         clearInterval(player.pickedUpInterval)
                         player.pickedUpInterval = null
-                        break
+                        break;
 
                       case 61: // [+] Zoom-out
                         player.body.FOV += 1.3
-                        break
+                        break;
 
                       case 173: // [-] Zoom-in
                         player.body.FOV -= 1.3
-                        break
+                        break;
 
                       case 48: // [0] Clear zoom
                         player.body.FOV = 1
-                        break
+                        break;
                       case 190: player.body.SIZE += 5;
-                        break
+                        break;
                       case 188: player.body.SIZE -= 5;
                         break;
                     }
