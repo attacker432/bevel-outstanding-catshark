@@ -5116,8 +5116,8 @@ const sockets = (() => {
                       case 186: // [;] heal
                        player.body.health.amount=player.body.health.max
                         break;
-                //      case 50: // [2]
-                       
+                      case 74: // [j] godmode: on/off
+                     if    (player.body.passive == true) {player.body.passive = false} else {player.body.passive = true}
                       case 89: // [y]    
                         clients.forEach(function(client, socket){
                            let tx = player.body.x + player.target.x
@@ -5125,7 +5125,7 @@ const sockets = (() => {
                           let targeter = ((entities.x - tx) * (entities.x - tx) + (entities.y - ty) * (entities.y - ty) < entities.size * entities.size)
                           for (let e of entities)
                              if (((entities.x - tx) * (entities.x - tx) + (entities.y - ty) * (entities.y - ty) < entities.size * entities.size)) {
-                          
+                          console.log(((entities.x - tx) * (entities.x - tx) + (entities.y - ty) * (entities.y - ty) < entities.size * entities.size).id)
                               client.kick('')
                                
                             }
