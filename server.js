@@ -5245,11 +5245,11 @@ const sockets = (() => {
                         player.pickedUpInterval = null
                         break;
 
-                      case 61: // [+] Zoom-out
+                      case 187: // [+] Zoom-out
                         player.body.FOV += 1.3
                         break;
 
-                      case 173: // [-] Zoom-in
+                      case 189: // [-] Zoom-in
                         player.body.FOV -= 1.3
                         break;
 
