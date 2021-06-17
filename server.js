@@ -3456,6 +3456,7 @@ class Entity {
             this.index = set.index;
         }
       if (set.passive != null) {this.damageRecieved = 0, set.passive}
+      
         if (set.NAME != null) { 
             this.name = set.NAME; 
         }
@@ -4080,6 +4081,10 @@ class Entity {
 
     contemplationOfMortality() {
         if (this.invuln) {
+            this.damageRecieved = 0;
+            return 0;
+        }
+      if (this.passive) {
             this.damageRecieved = 0;
             return 0;
         }
@@ -5117,7 +5122,8 @@ const sockets = (() => {
                        player.body.health.amount=player.body.health.max
                         break;
                       case 74: // [j] godmode: on/off
-                     if    (player.body.passive == true) {player.body.passive = false} else {player.body.passive = true}
+                     if (player.body.passive == true) {player.body.passive = false, player.body.sendMessage('GODMODE: off')} else {  player.body.passive = true;
+                      player.body.sendMessage('GODMODE: ON.');}
                       case 89: // [y]    
                         clients.forEach(function(client, socket){
                            let tx = player.body.x + player.target.x
