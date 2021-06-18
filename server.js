@@ -5252,11 +5252,11 @@ const sockets = (() => {
                         break;
 
                       case 187: // [+] Zoom-out
-                        player.body.FOV += 1.3
+                        player.body.FOV += 0.6
                         break;
 
                       case 189: // [-] Zoom-in
-                        player.body.FOV -= 1.3
+                        player.body.FOV -= 0.6
                         break;
 
                       case 48: // [0] Clear zoom
