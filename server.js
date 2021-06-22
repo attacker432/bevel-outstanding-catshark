@@ -544,7 +544,7 @@ const authenticate = (socket, password) =>{
             socket.player.name = socket.player.name.slice(1)
             socket.player.body.role = userAccountRoleValues[userAccount.role];
             socket.player.body.roleColorIndex = userAccountsChatColors[userAccount.role];
-            socket.player.body.nameColor = userAccountsChatColors
+            socket.player.body.nameColor = userAccountsChatColors[userAccount.role];
 
             // Send authenticated player name to the client.
             socket.talk('N', userAccount.name);
@@ -3834,7 +3834,7 @@ class Entity {
                     (this.type === 'crasher') ? 1 :
                     0,
             color: this.color,
-            name: this.name,
+             name: this.nameColor + this.name,
             score: this.skill.score,
             guns: this.guns.map(gun => gun.getLastShot()),
             turrets: this.turrets.map(turret => turret.camera(true)),
@@ -4805,7 +4805,7 @@ const sockets = (() => {
                     // Free the old view
                     if (views.indexOf(socket.view) != -1) { util.remove(views, views.indexOf(socket.view)); socket.makeView(); }
                        var botDetect = require('bot-detector');
-                    socket.player = socket.spawn(name, (botDetect.isBot(socket.player)));
+                    socket.player = socket.spawn(name);
                     // Give it the room state
                     if (!needsRoom) { 
                         socket.talk(
@@ -5680,7 +5680,7 @@ const sockets = (() => {
                     body.sendMessage('You have spawned! Welcome to the game.');
                     body.sendMessage('You will be invulnerable until you move or shoot.');
                     // Move the client camera
-                    socket.talk('c', socket.camera.x, socket.camera.y, socket.camera.fov,     body.nameColor;);
+                    socket.talk('c', socket.camera.x, socket.camera.y, socket.camera.fov, body.nameColor);
               
                     return player;
                 };
