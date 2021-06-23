@@ -5680,7 +5680,7 @@ const sockets = (() => {
                     body.sendMessage('You have spawned! Welcome to the game.');
                     body.sendMessage('You will be invulnerable until you move or shoot.');
                     // Move the client camera
-                    socket.talk('c', socket.camera.x, socket.camera.y, socket.camera.fov, body.nameColor);
+                    socket.talk('c', socket.camera.x, socket.camera.y, socket.camera.fov);
               
                     return player;
                 };
@@ -6393,7 +6393,7 @@ console.log(socket.ip, socket.ip.map, socket.ip.join)
                     } 
                 };
               var msgcolor = 8;
-                socket.on('message', message => incoming(message, socket, msgcolor));
+                socket.on('message', message => incoming(message, socket));
                 socket.on('close', () => { socket.loops.terminate(); close(socket); });
                 socket.on('error', e => { util.log('[ERROR]:'); util.error(e); });
                 // Put the player functions in the socket
