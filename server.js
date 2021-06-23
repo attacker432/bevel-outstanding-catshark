@@ -899,8 +899,9 @@ const test1 = (socket, clients, args) =>{
             if (size <1000) {socket.player.body.sendMessage('max mapsize: 8000; min mapsize: 1000;')}
             else {
                room.width = size;
-               room.height = size;
-            minimap.splice(0, room.width, room.height);
+               room.height = size;;
+              const clients = sockets.getClients();
+              for (let client of clients) {clients.talk("M"), room.width, room.height}
 sockets.broadcast('**** changing mapsize to '+size+' ****');
               console.log('new mapsize = '+ size);
             }
